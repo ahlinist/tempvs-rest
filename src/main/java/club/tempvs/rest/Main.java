@@ -4,8 +4,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
- * This class launches the tempvs-email web application in an embedded Jetty container. This is the entry point to the
- * application. The Java command that is used for launching should fire this main method.
+ * This class launches the tempvs-rest web application in an embedded Jetty container. This is the entry point to the
+ * application. Extend this class to add more end-points to your REST-api.
  */
 public class Main {
 
