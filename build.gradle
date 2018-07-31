@@ -1,12 +1,85 @@
 plugins {
     id 'java'
     id 'maven-publish'
+    //id 'signing'
 }
 
-group 'com.tempvs'
+group 'club.tempvs'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
+task sourcesJar(type: Jar) {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    from sourceSets.main.allJava
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    from javadoc
+    classifier = 'javadoc'
+}
+
+jar {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'rest'
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                name = 'Tempvs rest'
+                description = 'A simple rest api for tempvs-family projects'
+                url = 'https://github.com/ahlinist/tempvs-rest'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'ahlinist'
+                        name = 'Anton Hlinisty'
+                        email = 'anton.hlinisty@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git:///github.com/ahlinist/tempvs-rest.git'
+                    developerConnection = 'scm:git:ssh:///github.com/ahlinist/tempvs-rest.git'
+                    url = 'https://github.com/ahlinist/tempvs-rest'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            // change URLs to point to your repos, e.g. http://my.org/repo
+            def releasesRepoUrl = "https://github.com/ahlinist/tempvs-rest/releases"
+            def snapshotsRepoUrl = "https://github.com/ahlinist/tempvs-rest"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+}
+
+/*signing {
+    sign publishing.publications.mavenJava
+}*/
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html4', true)
+    }
+}
 
 repositories {
     mavenCentral()
@@ -26,18 +99,4 @@ dependencies {
     //testing
     testCompile "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-bundle:$jerseyVersion"
     testCompile 'org.mockito:mockito-core:2.18.3'
-}
-
-task copyToLib(type: Copy) {
-    into "$buildDir/libs"
-    from configurations.compile
-}
-
-task stage() {
-    dependsOn clean, copyToLib, jar
-}
-
-tasks.stage.doLast() {
-    delete "build/tmp"
-    delete "build/classes"
 }
