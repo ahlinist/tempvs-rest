@@ -11,6 +11,7 @@ task sourcesJar(type: Jar) {
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
     from sourceSets.main.allJava
     classifier = 'sources'
 }
@@ -19,6 +20,7 @@ task javadocJar(type: Jar) {
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
     from javadoc
     classifier = 'javadoc'
 }
@@ -27,6 +29,7 @@ jar {
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
 }
 
 publishing {
