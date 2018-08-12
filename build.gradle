@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    //id 'signing'
+    id 'signing'
 }
 
 group 'club.tempvs'
@@ -66,17 +66,18 @@ publishing {
     }
     repositories {
         maven {
-            // change URLs to point to your repos, e.g. http://my.org/repo
-            def releasesRepoUrl = "https://github.com/ahlinist/tempvs-rest/releases"
-            def snapshotsRepoUrl = "https://github.com/ahlinist/tempvs-rest"
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username sonatypeUsername
+                password sonatypePassword
+            }
         }
     }
 }
 
-/*signing {
+signing {
     sign publishing.publications.mavenJava
-}*/
+}
 
 javadoc {
     if(JavaVersion.current().isJava9Compatible()) {

@@ -10,12 +10,6 @@ import javax.ws.rs.core.*;
 public class Api {
 
     /**
-     * A header param "token" that is being parsed from the incoming request and used for security purposes if needed.
-     */
-    @HeaderParam("token")
-    private String token;
-
-    /**
      * A method that is being exposed with URI <i>/api/ping</i>. Accepts GET HTTP-Request and responds with
      * <i>pong!</i> text.
      * @return "pong!" {@link String}
