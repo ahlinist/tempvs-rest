@@ -1,4 +1,4 @@
-package club.tempvs.rest.json;
+package club.tempvs.rest.model;
 
 /**
  * Is thrown by an instance of class that implements the {@link Payload} interface if the expected data format,

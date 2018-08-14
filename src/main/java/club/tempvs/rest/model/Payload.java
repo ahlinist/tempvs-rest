@@ -1,4 +1,4 @@
-package club.tempvs.rest.json;
+package club.tempvs.rest.model;
 
 /**
  * Interface that is being implemented by various JSON-corresponsing POJOs.
