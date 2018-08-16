@@ -7,17 +7,19 @@ public class TokenHelper {
 
     private static final String TOKEN = System.getenv("TOKEN");
 
-    private String tokenHash;
+    private static String tokenHash = generateHash(TOKEN);
 
-    public TokenHelper() {
-        this.tokenHash = generateHash(TOKEN);
-    }
-
-    public String getTokenHash() {
+    public static String getTokenHash() {
         return tokenHash;
     }
 
-    private String generateHash(String token) {
+    public static void authenticate(String receivedToken) {
+        if (receivedToken == null && !receivedToken.equals(tokenHash)) {
+            throw new AuthenticationException();
+        }
+    }
+
+    private static String generateHash(String token) {
         if (token == null) {
             return null;
         }
