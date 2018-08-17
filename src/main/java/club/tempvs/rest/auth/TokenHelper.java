@@ -19,7 +19,7 @@ public class TokenHelper {
 
     /**
      * A constructor that accepts a token as a parameter and converts it to MD5 hash for further usage.
-     * @param token
+     * @param token a raw security token.
      */
     public TokenHelper(String token) {
         this.tokenHash = generateHash(token);
@@ -36,7 +36,7 @@ public class TokenHelper {
     /**
      * A method that receives the auth key and compares it with tokenHash field value. In case of mismatching
      * {@link AuthenticationException} is thrown.
-     * @param receivedToken
+     * @param receivedToken a security key to be matched against the hashed raw token.
      */
     public void authenticate(String receivedToken) {
         if (receivedToken == null || !receivedToken.equals(tokenHash)) {
