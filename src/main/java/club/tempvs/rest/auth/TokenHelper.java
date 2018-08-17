@@ -5,16 +5,22 @@ import java.security.MessageDigest;
 
 public class TokenHelper {
 
-    private static final String TOKEN = System.getenv("TOKEN");
+    private String tokenHash;
 
-    private static String tokenHash = generateHash(TOKEN);
-
-    public static String getTokenHash() {
-        return tokenHash;
+    public TokenHelper() {
+        this.tokenHash = generateHash(System.getenv("TOKEN"));
     }
 
-    public static void authenticate(String receivedToken) {
-        if (receivedToken == null && !receivedToken.equals(tokenHash)) {
+    public TokenHelper(String token) {
+        this.tokenHash = generateHash(token);
+    }
+
+    public String getTokenHash() {
+        return this.tokenHash;
+    }
+
+    public void authenticate(String receivedToken) {
+        if (receivedToken == null || !receivedToken.equals(tokenHash)) {
             throw new AuthenticationException();
         }
     }

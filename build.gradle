@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'club.tempvs'
-version '1.5'
+version '1.6'
 
 task sourcesJar(type: Jar) {
     from {
